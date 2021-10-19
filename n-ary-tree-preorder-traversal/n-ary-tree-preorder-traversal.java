@@ -18,16 +18,27 @@ class Node {
 */
 
 class Solution {
-    List<Integer> list = new ArrayList<>();
+    
 
     public List<Integer> preorder(Node root) {
+        
+        Stack<Node> stack = new Stack<>();
+        List<Integer> output = new ArrayList<>();
+        
         if (root == null) {
-            return list;
+            return output;
         }
-        list.add(root.val);
-        for (Node child : root.children) {
-            preorder(child);
+        
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            output.add(node.val);
+            Collections.reverse(node.children);
+            for (Node child : node.children) {
+                stack.add(child);
+            }
         }
-        return list;
+        
+        return output;
     }
 }
