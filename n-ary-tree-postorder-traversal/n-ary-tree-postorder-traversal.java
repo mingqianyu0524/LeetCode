@@ -18,25 +18,15 @@ class Node {
 */
 
 class Solution {
+    List<Integer> output = new ArrayList<>();
     public List<Integer> postorder(Node root) {
-        LinkedList<Integer> output = new LinkedList<>();
-        Stack<Node> stack = new Stack<>();
-        
         if (root == null) {
             return output;
         }
-        
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            Node node = stack.pop();
-            output.addFirst(node.val);
-            for (Node child : node.children) {
-                if (child != null) {
-                    stack.push(child);
-                }
-            }
+        for (Node child : root.children) {
+            postorder(child);
         }
-        
+        output.add(root.val);
         return output;
     }
 }
