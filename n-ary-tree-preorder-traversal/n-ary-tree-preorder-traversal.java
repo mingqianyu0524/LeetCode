@@ -22,7 +22,7 @@ class Solution {
 
     public List<Integer> preorder(Node root) {
         
-        Stack<Node> stack = new Stack<>();
+        LinkedList<Node> stack = new LinkedList<>();
         List<Integer> output = new ArrayList<>();
         
         if (root == null) {
@@ -31,7 +31,7 @@ class Solution {
         
         stack.add(root);
         while (!stack.isEmpty()) {
-            Node node = stack.pop();
+            Node node = stack.pollLast();
             output.add(node.val);
             Collections.reverse(node.children);
             for (Node child : node.children) {
