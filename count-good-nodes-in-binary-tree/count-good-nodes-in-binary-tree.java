@@ -13,21 +13,32 @@
  *     }
  * }
  */
-class Solution {
-    private int counter = 0;
-    private void dfs(TreeNode root, int max) {
-        if (root != null) {
-            if (root.val >= max) {
-                max = root.val;
-                counter ++;
-            }
-            dfs(root.left, max);
-            dfs(root.right, max);
-        }
+class Pair {
+    public TreeNode node;
+    public int maxSoFar;
+    public Pair(TreeNode node, int maxSoFar) {
+        this.node = node;
+        this.maxSoFar = maxSoFar;
     }
+}
+class Solution {
     public int goodNodes(TreeNode root) {
-        int max = root.val;
-        dfs(root, max);
+        int counter = 0;
+        Queue<Pair> queue = new LinkedList<>();
+        queue.offer(new Pair(root, Integer.MIN_VALUE));
+        
+        while (queue.size() > 0) {
+            Pair curr = queue.poll();
+            if (curr.maxSoFar <= curr.node.val) {
+                counter++;
+            }
+            if (curr.node.left != null) {
+                queue.offer(new Pair(curr.node.left, Math.max(curr.node.val, curr.maxSoFar)));
+            }
+            if (curr.node.right != null) {
+                queue.offer(new Pair(curr.node.right, Math.max(curr.node.val, curr.maxSoFar))); 
+            }
+        }
         return counter;
     }
 }
