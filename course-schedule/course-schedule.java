@@ -1,37 +1,32 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prereq) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        int[] inDegree = new int[numCourses];
-        for (int i=0; i<prereq.length; i++) {
-            int pre = prereq[i][1];
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        
+        for (int i=0;i<numCourses;i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+        
+        for (int i=0;i<prereq.length;i++) {
             int course = prereq[i][0];
-            inDegree[course]++;
-            if (graph.containsKey(pre)) {
-                graph.get(pre).add(course);
-            }
-            else {
-                List<Integer> list = new ArrayList<>();
-                list.add(course);
-                graph.put(pre, list);
-            }
+            int pre = prereq[i][1];
+            graph.get(pre).add(course);
         }
-        Queue<Integer> q = new LinkedList<>();
+        
+        int[] visited = new int[numCourses];
         for (int i=0; i<numCourses; i++) {
-            if (inDegree[i] == 0) q.add(i);
-        }
-        while (!q.isEmpty()) {
-            int curr = q.poll();
-            List<Integer> toTake = graph.get(curr);
-            for (int i=0; toTake != null && i<toTake.size(); i++) {
-                inDegree[toTake.get(i)]--;
-                if (inDegree[toTake.get(i)] == 0) {
-                    q.add(toTake.get(i));
-                }
-            } 
-        }
-        for (int i=0; i<numCourses; i++) {
-            if (inDegree[i] != 0) return false;
+            if (dfs(i, graph, visited)) return false;
         }
         return true;
+    }
+    private boolean dfs(int curr, ArrayList<ArrayList<Integer>> graph, int[] visited) {
+        // 1 = visiting, 2 = visited
+        if (visited[curr] == 1) return true;
+        if (visited[curr] == 2) return false;
+        visited[curr] = 1;
+        for (int next : graph.get(curr)) {
+            if (dfs(next, graph, visited)) return true;
+        }
+        visited[curr] = 2;
+        return false;
     }
 }
