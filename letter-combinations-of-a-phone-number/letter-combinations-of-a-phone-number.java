@@ -1,29 +1,32 @@
 class Solution {
-    private List<String> combinations = new ArrayList<>();
-    private Map<Character, String> letters = Map.of(
-        '2', "abc", '3', "def", '4', "ghi", '5', "jkl", 
-        '6', "mno", '7', "pqrs", '8', "tuv", '9', "wxyz");
-    private String phoneDigits;
-    
-    public List<String> letterCombinations(String digits) {
-        if (digits.length() == 0) return combinations;
-        phoneDigits = digits;
-        backtrack(0, new StringBuilder());
-        return combinations;
+    public List<String> letterCombinations(String digits) {      
+      String[] d = new String[]{" ", 
+                                "", 
+                                "abc", 
+                                "def",
+                                "ghi",
+                                "jkl",
+                                "mno",
+                                "pqrs",
+                                "tuv",
+                                "wxyz"};        
+      char[] cur = new char[digits.length()];
+      List<String> ans = new ArrayList<>();
+      dfs(digits, d, 0, cur, ans);
+      return ans;
     }
-    
-    private void backtrack(int i, StringBuilder path) {
-        if (path.length() == phoneDigits.length()) {
-            combinations.add(path.toString());
-            return;
-        }
-        
-        String possibleLetters = letters.get(phoneDigits.charAt(i));
-        // find more about String.toCharArray()
-        for (char letter : possibleLetters.toCharArray()) {
-            path.append(letter);
-            backtrack(i+1, path);
-            path.deleteCharAt(path.length()-1);
-        }
+    private void dfs(String digits, String[] d, 
+                     int l, char[] cur, List<String> ans) {
+      if (l == digits.length()) {
+          if (l > 0) ans.add(new String(cur));
+          return;
+      }
+ 
+      String s = d[Character.getNumericValue(digits.charAt(l))];
+ 
+      for (int i = 0; i < s.length(); ++i) {
+          cur[l] = s.charAt(i);
+          dfs(digits, d, l + 1, cur, ans);            
+      }
     }
 }
