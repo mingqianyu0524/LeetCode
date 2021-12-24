@@ -14,33 +14,23 @@
  * }
  */
 class Solution {
-    List<Double> res = new ArrayList<>();
     public List<Double> averageOfLevels(TreeNode root) {
-        Queue<List<Integer>> q = new LinkedList<>();
-        List<TreeNode> L = new ArrayList<>();
-        L.add(root);
-        res.add(new Double(root.val));
-        while (!L.isEmpty()) {
-            L = getNextLevel(L);
-            Double sum = 0.0;
-            int count = 0;
-            for (TreeNode n : L) {
-                sum+=new Double(n.val);
-                count++;
+        List<Double> res = new ArrayList<>();
+        Queue<TreeNode> cur = new LinkedList<>();
+        Queue<TreeNode> next = new LinkedList<>();
+        if (root == null) return res;
+        cur.add(root);
+        while (!cur.isEmpty()) {
+            long sum = 0;
+            for (TreeNode node : cur) {
+                sum += node.val;
+                if (node.left != null) next.add(node.left);
+                if (node.right != null) next.add(node.right);
             }
-            if (count != 0) res.add(sum / new Double(count));
+            res.add(sum / new Double(cur.size()));
+            cur = next;
+            next = new LinkedList<TreeNode>();
         }
         return res;
-    }
-    
-    private List<TreeNode> getNextLevel(List<TreeNode> currentLevel) {
-        ArrayList<TreeNode> nextLevel = new ArrayList<>();
-        for (TreeNode n : currentLevel) {
-            if (n != null) {
-                if (n.left != null) nextLevel.add(n.left);
-                if (n.right != null) nextLevel.add(n.right);
-            }
-        }
-        return nextLevel;
     }
 }
