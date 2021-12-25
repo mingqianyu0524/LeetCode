@@ -19,22 +19,21 @@ class Solution {
         int res = Integer.MAX_VALUE;
         if (root == null) return 0;
         q.offer(root);
-        int level = 1;
+        int level = 0;
         while (!q.isEmpty()) {
+            level++;
             int n = q.size();
             for (int i=0; i<n; ++i) {
                 TreeNode node = q.poll();
                 if (node.left == null && node.right == null) {
-                    //found a leaf node
-                    if (level < res) res = level;
+                    return level;
                 }
                 else {
                     if (node.left!=null) q.offer(node.left);
                     if (node.right!=null) q.offer(node.right);
                 }
             }
-            ++level;
         }
-        return res;
+        return -1;
     }
 }
