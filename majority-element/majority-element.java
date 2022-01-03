@@ -1,15 +1,18 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int ceil = Math.floorDiv(nums.length, 2);
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            if (!map.containsKey(num)) map.put(num, 1);
-            else {
-                int value = map.get(num);
-                if (value+1>ceil) return num;
-                map.put(num, value+1);
+        int n = nums.length;
+        int majority = 0;
+        for (int i=0; i<32; ++i) {
+            int mask = 1 << i;
+            int count = 0;
+            for (int num : nums) {
+                if ((mask & num) == mask) count++;
+                if (count > n/2) {
+                    majority |= mask;
+                    break;
+                }
             }
         }
-        return nums[0];
+        return majority;
     }
 }
