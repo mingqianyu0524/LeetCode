@@ -8,13 +8,23 @@ class Solution {
             if (num > sub.get(sub.size() - 1)) {
                 sub.add(num);
             } else {
-                int j = 0;
-                while (num > sub.get(j)) {
-                    j++;
-                }
+                // binary search
+                int j = binarySearch(sub, num);
                 sub.set(j, num);
             }
         }
         return sub.size();
+    }
+    private int binarySearch(ArrayList<Integer> sub, int num) {
+        int left = 0;
+        int right = sub.size() - 1;
+        int mid = (left + right) / 2;
+        while (left < right) {
+            mid = (left+right)/2;
+            if (sub.get(mid) == num) return mid;
+            else if (sub.get(mid) < num) left = mid+1;
+            else right = mid;
+        }
+        return left;
     }
 }
