@@ -7,8 +7,8 @@ class Solution {
         // dp
         for (int price : prices) {
             for (int j = 1; j <= k; j++) {
-                T_ik0[j] = Math.max(T_ik0[j], T_ik1[j] + price);
                 T_ik1[j] = Math.max(T_ik1[j], T_ik0[j-1] - price);
+                T_ik0[j] = Math.max(T_ik0[j], T_ik1[j] + price);
             }
         }
         return T_ik0[k];
