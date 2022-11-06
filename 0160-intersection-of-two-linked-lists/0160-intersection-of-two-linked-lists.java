@@ -16,7 +16,7 @@ public class Solution {
             if (headA == headB || set.contains(headA)) {
                 return headA;
             } 
-            if (headA == headB || set.contains(headB)) {
+            if (set.contains(headB)) {
                 return headB;
             }
             if (headA != null) {
