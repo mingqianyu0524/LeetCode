@@ -11,24 +11,22 @@
  */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        Map<ListNode, Character> map = new HashMap<>();
+        Set<ListNode> set = new HashSet<>();
         ListNode pa = headA, pb = headB;
         while (pa != null || pb != null) {
-            // If a repeating node is found, return it.
-            if (pa == pb || map.containsKey(pa)) {
+            if (pa == pb || set.contains(pa)) {
                 return pa;
             } 
-            if (pa == pb || map.containsKey(pb)) {
+            if (pa == pb || set.contains(pb)) {
                 return pb;
             }
-            // If it's a new node, store it in map and update pointer.
             if (pa != null) {
-                map.put(pa, 'A');
+                set.add(pa);
                 pa = pa.next;
             }
             
             if (pb != null) {
-                map.put(pb, 'B');
+                set.add(pb);
                 pb = pb.next;
             }
             
