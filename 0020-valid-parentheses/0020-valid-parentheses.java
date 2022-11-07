@@ -10,7 +10,8 @@ class Solution {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (map.containsKey(c)) {
-                if (stack.isEmpty() || stack.pop() != map.get(c)) return false;
+                char top = stack.isEmpty()? '#' : stack.pop();
+                if (top != map.get(c)) return false;
             }
             else {
                 stack.push(c);
