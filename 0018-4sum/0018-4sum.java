@@ -5,10 +5,6 @@ class Solution {
     }
     public List<List<Integer>> kSum(int[] nums, long target, int start, int k) {
         List<List<Integer>> res = new ArrayList<>();
-
-        if (start == nums.length) {
-            return res;
-        }
         if (k == 2) {
             return twoSum(nums, target, start);
         }
