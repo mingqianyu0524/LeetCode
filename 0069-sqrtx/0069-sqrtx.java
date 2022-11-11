@@ -1,10 +1,10 @@
 class Solution {
 public int mySqrt(int x) {
-        long left = 1, right = x, mid = x;
+        int left = 1, right = x, mid = x;
         while (left <= right) {
-            mid = (left+right)/2;
+            mid = left + (right-left)/2;
             long num = (long)mid*mid;
-            if (num == x) return (int)mid;
+            if (num == x) return mid;
             else if (num < x) {
                 left = mid+1;
             }
