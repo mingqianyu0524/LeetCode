@@ -2,15 +2,11 @@ class Solution {
     public boolean areOccurrencesEqual(String s) {
         Map<Character, Integer> map = new HashMap<>();
         int count = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (char c : s.toCharArray()) {
             count = map.getOrDefault(c, 0) + 1;
             map.put(c, count);
         }
-        for (char c : map.keySet()) {
-            if (map.get(c) != count) return false;
-            System.out.printf("key: %s, value: %d\n", c, map.get(c));
-        }
-        return true;
+        Set<Integer> set = new HashSet<>(map.values());
+        return set.size() == 1;
     }
 }
