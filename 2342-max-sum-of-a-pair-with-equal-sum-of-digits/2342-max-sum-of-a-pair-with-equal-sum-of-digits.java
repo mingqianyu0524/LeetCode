@@ -1,20 +1,13 @@
 class Solution {
     public int maximumSum(int[] nums) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int digitSum = digitSum(nums[i]);
-            if (!map.containsKey(digitSum)) {
-                map.put(digitSum, new ArrayList<Integer>());
-            }
-            map.get(digitSum).add(nums[i]);
-        }
+        Map<Integer, Integer> map = new HashMap<>();
         int ans = -1;
-        for (int key : map.keySet()) {
-            List<Integer> ls = map.get(key);
-            if (ls.size() > 1) {
-                Collections.sort(ls, Collections.reverseOrder());    
-                ans = Math.max(ans, ls.get(0) + ls.get(1));
+        for (int num : nums) {
+            int digitSum = digitSum(num);
+            if (map.containsKey(digitSum)) {
+                ans = Math.max(ans, num + map.get(digitSum));
             }
+            map.put(digitSum, Math.max(num, map.getOrDefault(digitSum, 0)));
         }
         return ans;
     }
