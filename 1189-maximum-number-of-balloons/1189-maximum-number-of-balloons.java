@@ -1,28 +1,32 @@
 class Solution {
-    public int maxNumberOfBalloons(String text) {
-        int bCount = 0, aCount = 0, lCount = 0, oCount = 0, nCount = 0;
-
-        // Count the frequencey of all the five characters
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == 'b') {
-                bCount++;
-            } else if (text.charAt(i) == 'a') {
-                aCount++;
-            } else if (text.charAt(i) == 'l') {
-                lCount++;
-            } else if (text.charAt(i) == 'o') {
-                oCount++;
-            } else if (text.charAt(i) == 'n') {
-                nCount++;
+    private int findMaxNumberofPattern(String text, String pattern) {
+        int n = text.length(), m = pattern.length(), answer = Integer.MAX_VALUE;
+        int freqInText[] = new int[26];
+        int freqInPattern[] = new int[26];
+        
+        // Frequency of characters in text.
+        for (int i = 0; i < n; i++) {
+            freqInText[text.charAt(i) - 'a']++;
+        }
+        // Frequency of characters in pattern.
+        for (int i = 0; i < m; i++) {
+            freqInPattern[pattern.charAt(i) - 'a']++;
+        }
+        
+        // Compare the maximum string that can be produced
+        // considering one character at a time.
+        for (int i = 0; i < 26; i++) {
+            // Do not divide by zero.
+            if (freqInPattern[i] > 0) {
+                answer = Math.min(answer, freqInText[i] / freqInPattern[i]);
             }
         }
-	    
-        // Find the potential of each character.
-        // Except for 'l' and 'o' the potential is equal to the frequency.
-        lCount = lCount / 2;
-        oCount = oCount / 2;
         
-        // Find the bottleneck.
-        return Math.min(bCount, Math.min(aCount, Math.min(lCount, Math.min(oCount, nCount))));
+        return answer;
+    }
+    
+    public int maxNumberOfBalloons(String text) {
+        String pattern = "balloon";
+        return findMaxNumberofPattern(text, pattern);
     }
 }
