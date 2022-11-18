@@ -28,22 +28,21 @@ class Solution {
         Stack<Pair> stack = new Stack<>();
         stack.push(new Pair(root, root.val));
         
-        int ans = 1;
+        int ans = 0;
         while (!stack.isEmpty()) {
             Pair pair = stack.pop();
             TreeNode node = pair.node;
             int maxSoFar = pair.maxSoFar;
+            if (node.val >= maxSoFar) ans++;
             
             TreeNode left = node.left;
             TreeNode right = node.right;
             
             if (left != null) {
-                if (left.val >= maxSoFar) ans++;
                 stack.push(new Pair(left, Math.max(maxSoFar, left.val)));
             }
             
             if (right != null) {
-                if (right.val >= maxSoFar) ans++;
                 stack.push(new Pair(right, Math.max(maxSoFar, right.val)));
             }
         }
