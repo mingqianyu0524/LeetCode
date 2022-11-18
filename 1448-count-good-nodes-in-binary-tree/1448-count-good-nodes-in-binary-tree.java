@@ -14,13 +14,40 @@
  * }
  */
 class Solution {
-    public int goodNodes(TreeNode root) {
-        return dfs(root, root.val);
+    class Pair {
+        TreeNode node;
+        int maxSoFar;
+        Pair(TreeNode node, int maxSoFar) {
+            this.node = node;
+            this.maxSoFar = maxSoFar;
+        }
     }
-    private int dfs(TreeNode node, int maxSoFar) {
-        if (node == null) return 0;
-        int max = Math.max(node.val, maxSoFar);
-        int sum = dfs(node.left, max) + dfs(node.right, max);
-        return node.val < maxSoFar? sum : sum+1;
+    public int goodNodes(TreeNode root) {
+        if (root == null) return 0;
+        
+        Stack<Pair> stack = new Stack<>();
+        stack.push(new Pair(root, root.val));
+        
+        int ans = 1;
+        while (!stack.isEmpty()) {
+            Pair pair = stack.pop();
+            TreeNode node = pair.node;
+            int maxSoFar = pair.maxSoFar;
+            
+            TreeNode left = node.left;
+            TreeNode right = node.right;
+            
+            if (left != null) {
+                if (left.val >= maxSoFar) ans++;
+                stack.push(new Pair(left, Math.max(maxSoFar, left.val)));
+            }
+            
+            if (right != null) {
+                if (right.val >= maxSoFar) ans++;
+                stack.push(new Pair(right, Math.max(maxSoFar, right.val)));
+            }
+        }
+        return ans;
+        
     }
 }
