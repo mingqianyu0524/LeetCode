@@ -14,16 +14,23 @@
  * }
  */
 class Solution {
-    public int rangeSumBST(TreeNode node, int lo, int hi) {
+    public int rangeSumBST(TreeNode root, int lo, int hi) {
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
         int sum = 0;
-        if (node == null) return 0;
-        if (lo <= node.val && node.val <= hi) {
-            sum += node.val;
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node == null) continue;
+            if (node.val >= lo && node.val <= hi) {
+                sum += node.val;
+            }
+            if (node.val > lo) {
+                stack.push(node.left);
+            }
+            if (node.val < hi) {
+                stack.push(node.right);
+            }
         }
-        if (lo < node.val) 
-            sum += rangeSumBST(node.left, lo, hi);
-        if (hi > node.val) 
-            sum += rangeSumBST(node.right, lo, hi);
         return sum;
     }
 }
