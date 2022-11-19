@@ -14,41 +14,21 @@
  * }
  */
 class Solution {
-    class Tuple {
-        TreeNode node;
-        int min;
-        int max;
-        Tuple(TreeNode node, int min, int max) {
-            this.node = node;
-            this.min = min;
-            this.max = max;
-        }
-    }
+    private int v;
+    
     public int maxAncestorDiff(TreeNode root) {
-        Stack<Tuple> stack = new Stack<>();
-        stack.push(new Tuple(root, root.val, root.val));
-        int v = 0;
-        while (!stack.isEmpty()) {
-            Tuple tuple = stack.pop();
-            TreeNode node = tuple.node;
-            int min = tuple.min;
-            int max = tuple.max;
-            
-            v = Math.max(v, Math.max(Math.abs(node.val-max), Math.abs(node.val-min)));
-            
-            TreeNode l = node.left, r = node.right;
-            int minL = min, minR = min, maxL = max, maxR = max;
-            if (l != null) {
-                minL = Math.min(l.val, min);
-                maxL = Math.max(l.val, max);
-                stack.push(new Tuple(l, minL, maxL));
-            }
-            if (r != null) {
-                minR = Math.min(r.val, min);
-                maxR = Math.max(r.val, max);
-                stack.push(new Tuple(r, minR, maxR));
-            }
-        }
+        v = 0;
+        dfs(root, root.val, root.val);
         return v;
+    }
+    
+    private void dfs(TreeNode node, int min, int max) {
+        if (node == null) return;
+        v = Math.max(v, Math.max(Math.abs(node.val - min), Math.abs(node.val - max)));
+        min = Math.min(node.val, min);
+        max = Math.max(node.val, max);
+        dfs(node.left, min, max);
+        dfs(node.right, min, max);
+        return;
     }
 }
