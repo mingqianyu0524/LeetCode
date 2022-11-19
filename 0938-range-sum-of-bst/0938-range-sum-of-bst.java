@@ -20,14 +20,13 @@ class Solution {
         int sum = 0;
         while (!stack.isEmpty()) {
             TreeNode node = stack.pop();
-            if (node == null) continue;
             if (node.val >= lo && node.val <= hi) {
                 sum += node.val;
             }
-            if (node.val > lo) {
+            if (node.left != null && node.val > lo) {
                 stack.push(node.left);
             }
-            if (node.val < hi) {
+            if (node.right != null && node.val < hi) {
                 stack.push(node.right);
             }
         }
