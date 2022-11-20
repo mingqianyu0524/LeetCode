@@ -1,5 +1,4 @@
 class Solution {
-    private Set<String> set = new HashSet<>();
     private Map<Integer, List<Integer>> graph = new HashMap<>();
     private boolean[] visited;
     
@@ -11,8 +10,7 @@ class Solution {
         for (int[] connection : connections) {
             int x = connection[0], y = connection[1];
             graph.get(x).add(y);
-            graph.get(y).add(x);
-            set.add(convertToHash(x, y));
+            graph.get(y).add(-x);
         }
         visited[0] = true;
         return dfs(0);
@@ -20,12 +18,12 @@ class Solution {
     private int dfs(int m) {
         int count = 0;
         for (int n : graph.get(m)) {
-            if (!visited[n]) {
-                if (set.contains(convertToHash(m, n))) {
+            if (!visited[Math.abs(n)]) {
+                if (n >= 0) {
                     count++;
                 }
-                visited[n] = true;
-                count += dfs(n);
+                visited[Math.abs(n)] = true;
+                count += dfs(Math.abs(n));
             }
         }
         return count;
