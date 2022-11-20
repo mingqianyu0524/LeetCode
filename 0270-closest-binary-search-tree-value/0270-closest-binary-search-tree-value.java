@@ -15,19 +15,12 @@
  */
 class Solution {
     public int closestValue(TreeNode root, double target) {
-        List<Integer> list = dfs(root);
-        return Collections.min(list, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Math.abs(o1-target) < Math.abs(o2-target)? -1 : 1;
-            }
-        });
-    }
-    private List<Integer> dfs(TreeNode node) {
-        if (node == null) return new ArrayList<>();
-        List<Integer> ans = dfs(node.left);
-        ans.add(node.val);
-        ans.addAll(dfs(node.right));
-        return ans;
+        int val, closest = root.val;
+        while (root != null) {
+            val = root.val;
+            closest = Math.abs(val-target) < Math.abs(closest-target)? val : closest;
+            root = root.val > target? root.left : root.right;
+        }
+        return closest;
     }
 }
