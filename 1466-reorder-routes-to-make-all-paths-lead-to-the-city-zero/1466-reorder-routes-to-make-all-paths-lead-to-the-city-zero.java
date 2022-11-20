@@ -1,34 +1,25 @@
-class Solution {
-    private Map<Integer, List<Integer>> graph = new HashMap<>();
-    private boolean[] visited;
-    
+class Solution {  
     public int minReorder(int n, int[][] connections) {
+        List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            graph.put(i, new ArrayList<>());
+            graph.add(new ArrayList<>());
         }
-        visited = new boolean[n];
         for (int[] connection : connections) {
             int x = connection[0], y = connection[1];
             graph.get(x).add(y);
             graph.get(y).add(-x);
         }
-        visited[0] = true;
-        return dfs(0);
+        return dfs(graph, new boolean[n], 0);
     }
-    private int dfs(int m) {
+    private int dfs(List<List<Integer>> graph, boolean[] visited, int from) {
         int count = 0;
-        for (int n : graph.get(m)) {
-            if (!visited[Math.abs(n)]) {
-                if (n >= 0) {
-                    count++;
-                }
-                visited[Math.abs(n)] = true;
-                count += dfs(Math.abs(n));
+        visited[from] = true;
+        for (int to : graph.get(from)) {
+            if (!visited[Math.abs(to)]) {
+                visited[Math.abs(to)] = true;
+                count += dfs(graph, visited, Math.abs(to)) + (to > 0 ? 1 : 0);
             }
         }
         return count;
-    }
-    private String convertToHash(int x, int y) {
-        return String.valueOf(x) + "," + String.valueOf(y);
     }
 }
