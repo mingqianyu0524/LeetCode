@@ -15,14 +15,11 @@
  */
 class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        dfs(list, root);
-        return list;
-    }
-    private void dfs(List<Integer> list, TreeNode node) {
-        if (node == null) return;
-        list.add(node.val);
-        dfs(list, node.left);
-        dfs(list, node.right);
+        List<Integer> pre = new LinkedList<Integer>();
+		if(root==null) return pre;
+		pre.add(root.val);
+		pre.addAll(preorderTraversal(root.left));
+		pre.addAll(preorderTraversal(root.right));
+		return pre;
     }
 }
