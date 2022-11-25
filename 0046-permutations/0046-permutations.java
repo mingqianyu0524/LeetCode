@@ -10,7 +10,7 @@ class Solution {
             if (!curr.contains(num)) {
                 curr.add(num);
                 backtrack(res, curr, nums);
-                curr.remove(curr.indexOf(num));
+                curr.remove(curr.size() - 1);
             }
         }
     }
