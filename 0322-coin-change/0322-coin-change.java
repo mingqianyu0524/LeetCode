@@ -1,17 +1,15 @@
 class Solution {
-    Map<Integer, Integer> memo;
+    private static final int max = (int) 1e5;
     public int coinChange(int[] coins, int amount) {
-        memo = new HashMap<>();
-        return dp(coins, amount) > (int) 1e4? -1 : dp(coins,amount);
-    }
-    private int dp(int[] coins, int k) {
-        if (k <= 0) return k == 0 ? 0 : (int) 1e5;
-        if (memo.containsKey(k)) return memo.get(k);
-        int min = Integer.MAX_VALUE;
-        for (int coin : coins) {
-            min = Math.min(dp(coins, k-coin)+1, min);
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int k = 1; k <= amount; k++) {
+            for (int coin : coins) {
+                if (k >= coin)
+                    dp[k] = Math.min(dp[k-coin]+1, dp[k]);
+            }
         }
-        memo.put(k, min);
-        return memo.get(k);
+        return dp[amount] == max? -1 : dp[amount];
     }
 }
