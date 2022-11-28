@@ -1,26 +1,19 @@
 class Solution {
-    private int[][] memo;
-    
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length, n = obstacleGrid[0].length;
-        memo = new int[m][n];
-        for (int[] row : memo)
-            Arrays.fill(row, -1);
-        memo[0][0] = dp(obstacleGrid, m, n, 0, 0);
-        return memo[0][0];
+    public int uniquePathsWithObstacles(int[][] M) {
+        int m = M.length, n = M[0].length;
+        int[][] dp = new int[m+1][n+1];
+        for (int r = 1; r <= m; r++) {
+            for (int c = 1; c <= n; c++) {
+                if (M[r-1][c-1] != 1 && r == 1 && c == 1) dp[r][c] = 1;
+                else {
+                    if (M[r-1][c-1] == 0) {
+                        if (r > 0) dp[r][c] += dp[r-1][c];    
+                        if (c > 0) dp[r][c] += dp[r][c-1];
+                    } 
+                    else dp[r][c] = 0;
+                }
+            }
+        }
+        return dp[m][n];
     }
-    
-    private int dp(int[][] M, int m, int n, int r, int c) {
-        if (r >= m || c >= n)
-            return 0;
-        if (M[r][c] == 1)
-            memo[r][c] = 0;
-        if (M[r][c] == 0 && r == m - 1 && c == n - 1)
-            return 1;
-        if (memo[r][c] != -1)
-            return memo[r][c];
-        memo[r][c] = dp(M, m, n, r, c+1) + dp(M, m, n, r+1, c);
-        return memo[r][c];
-    }
-    
 }
