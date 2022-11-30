@@ -1,14 +1,14 @@
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums1)
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        int j = 0, k = 0;
-        for (int num : nums2) {
-            if (j < nums1.length && map.containsKey(num) && map.get(num) > 0) {
-                nums1[j] = num;
-                map.put(nums1[j++], map.get(num) - 1);
-                k++;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int l = 0, r = 0, k = 0;
+        while (l < nums1.length && r < nums2.length) {
+            if (nums1[l] < nums2[r]) l++;
+            else if (nums1[l] > nums2[r]) r++;
+            else {
+                nums1[k++] = nums1[l++];
+                r++;
             }
         }
         return Arrays.copyOfRange(nums1, 0, k);
