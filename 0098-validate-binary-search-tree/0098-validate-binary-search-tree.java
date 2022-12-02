@@ -17,9 +17,11 @@ class Solution {
     public boolean isValidBST(TreeNode root) {
         return dfs(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
-    private boolean dfs(TreeNode node, long small, long large) {
-        if (node == null) return true;
-        if (node.val <= small || node.val >= large) return false;
-        return dfs(node.left, small, node.val) && dfs(node.right, node.val, large);
+    private boolean dfs(TreeNode root, long lo, long hi) {
+        if (root == null)
+            return true;
+        if (root.val >= hi || root.val <= lo)
+            return false;
+        return dfs(root.left, lo, root.val) && dfs(root.right, root.val, hi);
     }
 }
